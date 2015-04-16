@@ -22,18 +22,22 @@ module.exports = function(grunt) {
       },
     },
     watch: {
-      gruntfile: {
-        files: '<%= jshint.gruntfile.src %>',
-        tasks: ['jshint:gruntfile']
+     lib: {
+        files: ['Gruntfile.js','lib/*.js'],
+        tasks: ['express:dev'],
+        options: {
+          spawn: false
+        }
       },
-      lib: {
-        files: '<%= jshint.lib.src %>',
-        tasks: ['jshint:lib', 'nodeunit']
-      },
+/*
       test: {
         files: '<%= jshint.test.src %>',
-        tasks: ['jshint:test', 'nodeunit']
+        tasks: ['jshint:test', 'nodeunit', 'express:dev'],
+          options: {
+            spawn: false
+          } 
       },
+*/
     },
     express: {
       options: {
@@ -65,10 +69,16 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-express-server');
 
-  grunt.registerTask('express-keepalive', 'Keep grunt running', function() {
-    this.async();
+  grunt.registerTask('foo','bar',function(){
+
+    grunt.log.writeln('tick tick tick');
+
   });
+
+ /* grunt.registerTask('express-keepalive', 'Keep grunt running', function() {
+    this.async();
+  });*/
   // Default task.
   grunt.registerTask('default', ['jshint', 'nodeunit']);
-  grunt.registerTask('serve', ['express:dev', 'express-keepalive']);
+  grunt.registerTask('serve', ['jshint','express:dev', 'watch']);
 };
